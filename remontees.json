@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T09:15:49.610Z",
+  "generatedAt": "2026-09-16T09:15:50.865Z",
   "items": [
     {
       "id": "r1789549791846-e52o7e",
@@ -51,7 +51,7 @@
       "objet": "Test final apres correction chemin SW",
       "description": "Verification apres correction du chemin complet du service worker.",
       "urgence": "urgent",
-      "statut": "traite",
+      "statut": "lu",
       "luLe": "2026-09-16T09:15:39.223Z",
       "traiteLe": "2026-09-16T09:15:39.223Z"
     }
