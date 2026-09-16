@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-09-16T07:04:46.849Z",
+  "generatedAt": "2026-09-16T07:13:19.156Z",
   "items": [
+    {
+      "id": "r1789542798834-9k6o3e",
+      "date": "2026-09-16",
+      "horodatage": "2026-09-16T07:13:18.834Z",
+      "marque": "Edgard Opticiens",
+      "magasin": "Test Nice Masséna",
+      "nom": "Jonathan",
+      "objet": "Test push après autorisation Chrome",
+      "description": "Verification apres autorisation reelle des notifications dans Chrome.",
+      "urgence": "urgent",
+      "statut": "nouveau"
+    },
     {
       "id": "r1789542286572-2mlbv4",
       "date": "2026-09-16",
