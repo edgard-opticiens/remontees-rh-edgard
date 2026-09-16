@@ -328,7 +328,12 @@ setInterval(chargerRemontees, 60000); // rafraîchissement automatique toutes le
 // --- OneSignal : abonnement aux notifications push ---
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function (OneSignal) {
-  await OneSignal.init({ appId: ONESIGNAL_APP_ID, allowLocalhostAsSecureOrigin: true });
+  await OneSignal.init({
+    appId: ONESIGNAL_APP_ID,
+    allowLocalhostAsSecureOrigin: true,
+    serviceWorkerParam: { scope: "/remontees-rh-edgard/" },
+    serviceWorkerPath: "OneSignalSDKWorker.js"
+  });
 
   function majPastille() {
     const optedIn = OneSignal.User.PushSubscription.optedIn;
