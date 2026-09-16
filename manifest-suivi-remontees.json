@@ -1,0 +1,14 @@
+{
+  "name": "Suivi remontées RH — Groupe Edgard",
+  "short_name": "Suivi RH",
+  "description": "Suivi en temps réel des remontées RH signalées par les équipes",
+  "start_url": "./suivi-remontees.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#c49b4e",
+  "theme_color": "#c49b4e",
+  "icons": [
+    { "src": "icon-suivi-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-suivi-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Suivi remontées RH — Groupe Edgard</title>
+<meta name="theme-color" content="#c49b4e">
+<link rel="manifest" href="manifest-suivi-remontees.json">
+<link rel="apple-touch-icon" href="icon-suivi-192.png">
+<link rel="icon" href="icon-suivi-192.png">
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<style>
+  :root{
+    --noir:#111111;
+    --or:#c49b4e;
+    --or-fonce:#a97f34;
+    --gris:#6b6b6b;
+    --fond:#f6f5f2;
+    --rouge:#b3413a;
+    --vert:#2b6a3a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Inter, -apple-system, sans-serif;
+    background:var(--fond);
+    color:var(--noir);
+    min-height:100vh;
+    padding:22px 16px 60px;
+  }
+  .conteneur{max-width:720px; margin:0 auto;}
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+    flex-wrap:wrap;
+  }
+  header h1{font-size:22px; margin:0 0 4px;}
+  header p{margin:0; color:var(--gris); font-size:13.5px;}
+
+  .carte-notif{
+    background:#fff;
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    box-shadow:0 8px 24px rgba(0,0,0,.05);
+    flex-wrap:wrap;
+  }
+  .carte-notif .txt{font-size:14px; color:var(--gris); max-width:420px;}
+  .carte-notif .txt strong{color:var(--noir);}
+  #btnActiver{
+    background:var(--noir);
+    color:var(--or);
+    border:none;
+    padding:11px 18px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  #btnActiver:disabled{opacity:.55; cursor:default;}
+  .pastille{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:999px;
+  }
+  .pastille.on{background:#eaf6ec; color:var(--vert);}
+  .pastille.off{background:#f1efe9; color:var(--gris);}
+
+  .barre{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .barre h2{font-size:15px; margin:0; text-transform:uppercase; letter-spacing:.06em; color:var(--gris);}
+  .barre-actions{display:flex; align-items:center; gap:14px;}
+  .toggle-traitees{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    color:var(--gris);
+    cursor:pointer;
+    user-select:none;
+  }
+  #btnRafraichir{
+    background:none;
+    border:1.5px solid #ddd9cf;
+    border-radius:8px;
+    padding:6px 12px;
+    font-size:13px;
+    cursor:pointer;
+    color:var(--noir);
+  }
+
+  .liste{display:flex; flex-direction:column; gap:12px;}
+  .item{
+    background:#fff;
+    border-radius:14px;
+    padding:16px 18px;
+    box-shadow:0 6px 18px rgba(0,0,0,.045);
+    border-left:5px solid var(--gris);
+    transition:opacity .2s;
+  }
+  .item.urgent{border-left-color:var(--rouge);}
+  .item.normal{border-left-color:var(--or);}
+  .item.traite{opacity:.55;}
+  .item .ligne1{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:6px;
+    flex-wrap:wrap;
+  }
+  .item .objet{font-weight:700; font-size:15.5px;}
+  .item .objet.barre{text-decoration:line-through; color:var(--gris);}
+  .item .quand{font-size:12.5px; color:var(--gris); white-space:nowrap;}
+  .item .meta{font-size:13px; color:var(--gris); margin-bottom:8px;}
+  .item .desc{font-size:14px; line-height:1.5; color:#2c2c2c; white-space:pre-wrap; margin-bottom:12px;}
+  .item .badge-urgent{
+    display:inline-block;
+    background:var(--rouge);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:999px;
+    margin-left:8px;
+    vertical-align:middle;
+  }
+  .item .cases{
+    display:flex;
+    gap:18px;
+    border-top:1px solid #f0eee8;
+    padding-top:10px;
+  }
+  .case{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    user-select:none;
+  }
+  .case input{width:16px; height:16px; cursor:pointer; accent-color:var(--noir);}
+  .case.lu{color:#8a6d2f;}
+  .case.traite{color:var(--vert);}
+  .vide{
+    text-align:center;
+    color:var(--gris);
+    padding:50px 20px;
+    font-size:14.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="conteneur">
+  <header>
+    <div>
+      <h1>Suivi des remontées RH</h1>
+      <p>Vue en direct des sujets signalés par le service RH.</p>
+    </div>
+    <span class="pastille off" id="pastilleStatut">● Notifications désactivées</span>
+  </header>
+
+  <div class="carte-notif">
+    <div class="txt">
+      <strong>Reçois une alerte instantanée sur ce PC</strong><br>
+      dès qu'une remontée est envoyée, même si cette page est fermée.
+    </div>
+    <button id="btnActiver">🔔 Activer les notifications</button>
+  </div>
+
+  <div class="barre">
+    <h2>Remontées</h2>
+    <div class="barre-actions">
+      <label class="toggle-traitees">
+        <input type="checkbox" id="chkAfficherTraitees">
+        Afficher les traitées
+      </label>
+      <button id="btnRafraichir">↻ Rafraîchir</button>
+    </div>
+  </div>
+
+  <div class="liste" id="liste">
+    <div class="vide">Chargement…</div>
+  </div>
+</div>
+
+<script>
+// Identifiant OneSignal attribué à la responsable RH.
+// Doit être IDENTIQUE au "include_external_user_ids" utilisé dans le workflow n8n.
+const ONESIGNAL_EXTERNAL_ID = "responsable-rh";
+const ONESIGNAL_APP_ID = "4045bf32-b3c6-4036-9dbb-0f6379e0b4b3";
+
+// Fichier JSON publié par n8n à chaque nouvelle remontée / changement de statut.
+const DATA_URL = "remontees.json";
+// Webhook n8n pour enregistrer "lu" / "traité".
+const STATUT_URL = "https://edgard-opticiens.app.n8n.cloud/webhook/remontee-rh-statut";
+
+const pastille = document.getElementById("pastilleStatut");
+const btnActiver = document.getElementById("btnActiver");
+const liste = document.getElementById("liste");
+const btnRafraichir = document.getElementById("btnRafraichir");
+const chkAfficherTraitees = document.getElementById("chkAfficherTraitees");
+
+let items = [];
+
+function formatDate(iso) {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  } catch (e) {
+    return iso || "";
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function rendre() {
+  const afficherTraitees = chkAfficherTraitees.checked;
+  const visibles = items.filter((it) => afficherTraitees || it.statut !== "traite");
+
+  if (visibles.length === 0) {
+    liste.innerHTML = '<div class="vide">Aucune remontée à afficher.</div>';
+    return;
+  }
+
+  liste.innerHTML = visibles.map((it) => {
+    const estLu = it.statut === "lu" || it.statut === "traite";
+    const estTraite = it.statut === "traite";
+    return `
+    <div class="item ${it.urgence === 'urgent' ? 'urgent' : 'normal'} ${estTraite ? 'traite' : ''}" data-id="${escapeHtml(it.id)}">
+      <div class="ligne1">
+        <span class="objet ${estTraite ? 'barre' : ''}">${escapeHtml(it.objet || '(sans objet)')}${it.urgence === 'urgent' ? '<span class="badge-urgent">URGENT</span>' : ''}</span>
+        <span class="quand">${formatDate(it.horodatage || it.date)}</span>
+      </div>
+      <div class="meta">${escapeHtml(it.marque || '')}${it.magasin ? ' — ' + escapeHtml(it.magasin) : ''} · ${escapeHtml(it.nom || 'Anonyme')}</div>
+      <div class="desc">${escapeHtml(it.description || '')}</div>
+      <div class="cases">
+        <label class="case lu">
+          <input type="checkbox" data-action="lu" ${estLu ? 'checked' : ''}>
+          Lu
+        </label>
+        <label class="case traite">
+          <input type="checkbox" data-action="traite" ${estTraite ? 'checked' : ''}>
+          Traité
+        </label>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+async function chargerRemontees() {
+  try {
+    const res = await fetch(DATA_URL + "?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error("fichier introuvable");
+    const data = await res.json();
+    items = data.items || [];
+    rendre();
+  } catch (e) {
+    liste.innerHTML = '<div class="vide">Impossible de charger les remontées pour le moment.</div>';
+  }
+}
+
+async function envoyerStatut(id, statut) {
+  try {
+    await fetch(STATUT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, statut })
+    });
+  } catch (e) {
+    // en cas d'échec réseau, un rafraîchissement corrigera l'affichage
+  }
+}
+
+liste.addEventListener("change", (e) => {
+  const checkbox = e.target.closest('input[type="checkbox"]');
+  if (!checkbox) return;
+  const carte = checkbox.closest(".item");
+  const id = carte.dataset.id;
+  const item = items.find((it) => it.id === id);
+  if (!item) return;
+
+  const action = checkbox.dataset.action;
+  let nouveauStatut = item.statut || "nouveau";
+
+  if (action === "traite") {
+    nouveauStatut = checkbox.checked ? "traite" : "lu";
+  } else if (action === "lu") {
+    if (checkbox.checked) {
+      nouveauStatut = item.statut === "traite" ? "traite" : "lu";
+    } else {
+      nouveauStatut = "nouveau";
+    }
+  }
+
+  item.statut = nouveauStatut;
+  rendre();
+  envoyerStatut(id, nouveauStatut);
+});
+
+btnRafraichir.addEventListener("click", chargerRemontees);
+chkAfficherTraitees.addEventListener("change", rendre);
+chargerRemontees();
+setInterval(chargerRemontees, 60000); // rafraîchissement automatique toutes les 60s
+
+// --- OneSignal : abonnement aux notifications push ---
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function (OneSignal) {
+  await OneSignal.init({ appId: ONESIGNAL_APP_ID, allowLocalhostAsSecureOrigin: true });
+
+  function majPastille() {
+    const optedIn = OneSignal.User.PushSubscription.optedIn;
+    pastille.className = "pastille " + (optedIn ? "on" : "off");
+    pastille.textContent = optedIn ? "● Notifications activées" : "● Notifications désactivées";
+    btnActiver.style.display = optedIn ? "none" : "inline-block";
+  }
+
+  majPastille();
+  OneSignal.User.PushSubscription.addEventListener("change", majPastille);
+
+  btnActiver.addEventListener("click", async () => {
+    btnActiver.disabled = true;
+    btnActiver.textContent = "Activation…";
+    try {
+      await OneSignal.Notifications.requestPermission();
+      await OneSignal.login(ONESIGNAL_EXTERNAL_ID);
+    } catch (e) {
+      alert("Impossible d'activer les notifications : " + e.message);
+    } finally {
+      btnActiver.disabled = false;
+      btnActiver.textContent = "🔔 Activer les notifications";
+      majPastille();
+    }
+  });
+});
+</script>
+
+</body>
+</html>
