@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T14:13:14.606Z",
+  "generatedAt": "2026-09-16T14:13:16.061Z",
   "items": [
     {
       "id": "r1789567722269-gu6ue8",
@@ -38,7 +38,9 @@
       "objet": "Test apres delai de propagation",
       "description": "Test final apres quelques minutes d'attente pour que OneSignal indexe l'abonnement.",
       "urgence": "urgent",
-      "statut": "nouveau"
+      "statut": "traite",
+      "luLe": "2026-09-16T14:13:16.061Z",
+      "traiteLe": "2026-09-16T14:13:16.061Z"
     },
     {
       "id": "r1789549791846-e52o7e",
