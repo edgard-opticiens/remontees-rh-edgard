@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T14:08:42.530Z",
+  "generatedAt": "2026-09-16T14:13:12.649Z",
   "items": [
     {
       "id": "r1789567722269-gu6ue8",
@@ -23,7 +23,8 @@
       "objet": "Test subscription id direct",
       "description": "Test diagnostic cible directement sur subscription id.",
       "urgence": "normal",
-      "statut": "nouveau"
+      "statut": "lu",
+      "luLe": "2026-09-16T14:13:12.649Z"
     },
     {
       "id": "r1789567252052-8r1tnl",
