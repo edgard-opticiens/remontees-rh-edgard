@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T14:13:12.649Z",
+  "generatedAt": "2026-09-16T14:13:14.606Z",
   "items": [
     {
       "id": "r1789567722269-gu6ue8",
@@ -11,7 +11,9 @@
       "objet": "Retest segments v2",
       "description": "Retest Subscribed Users apres delai.",
       "urgence": "normal",
-      "statut": "nouveau"
+      "statut": "traite",
+      "luLe": "2026-09-16T14:13:14.606Z",
+      "traiteLe": "2026-09-16T14:13:14.606Z"
     },
     {
       "id": "r1789567687475-wjqyqp",
