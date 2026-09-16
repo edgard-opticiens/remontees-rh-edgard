@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T09:15:50.865Z",
+  "generatedAt": "2026-09-16T09:15:52.412Z",
   "items": [
     {
       "id": "r1789549791846-e52o7e",
@@ -38,8 +38,9 @@
       "objet": "Test push final - vrai abonne",
       "description": "L'alias responsable-rh est maintenant enregistre, on verifie la reception.",
       "urgence": "urgent",
-      "statut": "lu",
-      "luLe": "2026-09-16T09:15:49.610Z"
+      "statut": "traite",
+      "luLe": "2026-09-16T09:15:49.610Z",
+      "traiteLe": "2026-09-16T09:15:52.412Z"
     },
     {
       "id": "r1789549613798-tjg0ir",
