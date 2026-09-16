@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T09:09:52.159Z",
+  "generatedAt": "2026-09-16T09:14:56.559Z",
   "items": [
     {
       "id": "r1789549791846-e52o7e",
@@ -11,7 +11,9 @@
       "objet": "Test segments",
       "description": "Test diagnostic avec Subscribed Users.",
       "urgence": "normal",
-      "statut": "nouveau"
+      "statut": "traite",
+      "luLe": "2026-09-16T09:14:56.559Z",
+      "traiteLe": "2026-09-16T09:14:56.559Z"
     },
     {
       "id": "r1789549771552-mwy4fa",
