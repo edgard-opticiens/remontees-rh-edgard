@@ -1,6 +1,18 @@
 {
-  "generatedAt": "2026-09-16T06:55:57.747Z",
+  "generatedAt": "2026-09-16T06:58:26.350Z",
   "items": [
+    {
+      "id": "r1789541906067-s8j5id",
+      "date": "2026-09-16",
+      "horodatage": "2026-09-16T06:58:26.067Z",
+      "marque": "Edgard Opticiens",
+      "magasin": "Test Nice Masséna",
+      "nom": "Jonathan",
+      "objet": "Test push après correction credential",
+      "description": "Vérification de l'authentification OneSignal après re-saisie de la credential.",
+      "urgence": "urgent",
+      "statut": "nouveau"
+    },
     {
       "id": "r1789541757460-vh8q3c",
       "date": "2026-09-16",
