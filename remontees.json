@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-18T06:40:38.706Z",
+  "generatedAt": "2026-09-18T06:43:54.228Z",
   "items": [
     {
       "id": "r1789713638452-1jle6w",
@@ -11,7 +11,8 @@
       "objet": "Retest final",
       "description": "Verification que la cle fonctionne de nouveau apres retrait de la restriction IP.",
       "urgence": "normal",
-      "statut": "nouveau"
+      "statut": "lu",
+      "luLe": "2026-09-18T06:43:54.228Z"
     },
     {
       "id": "r1789713577166-k0vw4g",
