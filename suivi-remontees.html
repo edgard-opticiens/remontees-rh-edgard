@@ -214,6 +214,10 @@ const ONESIGNAL_APP_ID = "4045bf32-b3c6-4036-9dbb-0f6379e0b4b3";
 const DATA_URL = "remontees.json";
 // Webhook n8n pour enregistrer "lu" / "traité".
 const STATUT_URL = "https://edgard-opticiens.app.n8n.cloud/webhook/remontee-rh-statut";
+// Webhook n8n pour signaler l'identifiant d'abonnement push actuel (permet au
+// workflow de toujours cibler le bon appareil, même après une mise à jour du
+// navigateur qui change cet identifiant).
+const ABONNEMENT_URL = "https://edgard-opticiens.app.n8n.cloud/webhook/remontee-rh-abonnement";
 
 const pastille = document.getElementById("pastilleStatut");
 const btnActiver = document.getElementById("btnActiver");
@@ -335,11 +339,26 @@ OneSignalDeferred.push(async function (OneSignal) {
     serviceWorkerPath: "remontees-rh-edgard/OneSignalSDKWorker.js"
   });
 
+  let dernierAbonnementSignale = null;
+  function signalerAbonnement(subscriptionId) {
+    if (!subscriptionId || subscriptionId === dernierAbonnementSignale) return;
+    dernierAbonnementSignale = subscriptionId;
+    fetch(ABONNEMENT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscriptionId })
+    }).catch(() => {
+      dernierAbonnementSignale = null; // en cas d'échec, on retentera au prochain changement
+    });
+  }
+
   function majPastille() {
     const optedIn = OneSignal.User.PushSubscription.optedIn;
+    const subId = OneSignal.User.PushSubscription.id;
     pastille.className = "pastille " + (optedIn ? "on" : "off");
     pastille.textContent = optedIn ? "● Notifications activées" : "● Notifications désactivées";
     btnActiver.style.display = optedIn ? "none" : "inline-block";
+    if (optedIn) signalerAbonnement(subId);
   }
 
   majPastille();
